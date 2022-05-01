@@ -6,9 +6,6 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.OneToMany;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Document(collection = "Card")
@@ -22,10 +19,13 @@ public class Debitcard{
     private String idcard;
     private String cardtype;
     private String idclient;
-    private Date created;
+    private String created;
     private String clienttype;
+    private String principalaccount;
+    private String accounttype;
 
     @OneToMany
     private List<Account> account;
+
 
 }

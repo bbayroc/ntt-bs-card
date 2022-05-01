@@ -1,6 +1,5 @@
 package com.example.card.repository;
 
-import com.example.card.entity.Creditcard;
 import com.example.card.entity.Debitcard;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

@@ -6,11 +6,12 @@ import com.example.card.repository.DebitcardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/Debit")
@@ -25,27 +26,23 @@ public class DebitcardController {
     @PostMapping
     public Debitcard save(@RequestBody Debitcard debitcard) {
 
-        Date date = new Date();
-/*
-        Account account = new Account();
+        List<Account> accounts = debitcard.getAccount();
 
-debitcard.getAccount().stream()
-        .map(d -> setAdded(date));
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
-        .map(c -> LocalDateTime.parse(c.getCreated(), formatter).toLocalDate().getMonth());
+        Account account = accounts.get(0);
+        if (account.getIdaccount() != null) {
+            account.setAdded(LocalDateTime.now().format(formatter));
+            accounts.set(0, account);
+        }
 
-        List<Account> accounts = new ArrayList<>();
-        accounts = debitcard.getAccount();
+        debitcard.setAccount(accounts);
 
-        account.setIdaccount(accounts.getIdaccount);
-
-        accounts.set
-*/
         debitcard.setId(sequenceGeneratorService.generateSequence(Debitcard.SEQUENCE_NAME));
-        debitcard.setCreated(date);
+        debitcard.setCreated(LocalDateTime.now().format(formatter));
 
-
-        return debitcardRepository.save(debitcard);    }
+        return debitcardRepository.save(debitcard);
+    }
 
     @GetMapping
     public List<Debitcard> findall() {
@@ -65,13 +62,20 @@ debitcard.getAccount().stream()
     @PatchMapping("/{idcard}")
     public Debitcard addaccount(@PathVariable String idcard, @RequestBody Account account) {
 
-        Date date = new Date();
-
         Debitcard debitcard = debitcardRepository.findByIdcard(idcard);
 
-        account.setAdded(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
-        debitcard.getAccount().add(account);
+        account.setAdded(LocalDateTime.now().format(formatter));
+
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(account);
+
+        if (debitcard.getAccount().get(0).getIdaccount() == null) {
+            debitcard.setAccount(accounts);
+        } else {
+            debitcard.getAccount().add(account);
+        }
 
         return debitcardRepository.save(debitcard);
     }
@@ -83,5 +87,6 @@ debitcard.getAccount().stream()
 
     @PutMapping("/{id}")
     public Debitcard update(@PathVariable long id, @RequestBody Debitcard debitcard) {
-        return debitcardRepository.save(debitcard);    }
+        return debitcardRepository.save(debitcard);
+    }
 }
