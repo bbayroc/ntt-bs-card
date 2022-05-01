@@ -5,12 +5,10 @@ import com.example.card.entity.Creditcard;
 import com.example.card.entity.CardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 @Repository
 public class Validator {
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
-
     public Creditcard productvalidator(CardRequest cardRequest) {
 
             Creditcard creditcard = new Creditcard();
@@ -22,6 +20,5 @@ public class Validator {
             creditcard.setCurrency(cardRequest.getCurrency());
             creditcard.setClienttype(cardRequest.getClienttype());
             return creditcard;
-
         }
     }

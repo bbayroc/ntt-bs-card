@@ -5,24 +5,16 @@ import com.example.card.entity.*;
 import com.example.card.repository.DebitcardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
-
-
 @RestController
 @RequestMapping("/Debit")
 public class DebitcardController {
-
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
-
     @Autowired
     private DebitcardRepository debitcardRepository;
-
     @PostMapping
     public Debitcard save(@RequestBody Debitcard debitcard) {
 
@@ -41,8 +33,7 @@ public class DebitcardController {
         debitcard.setId(sequenceGeneratorService.generateSequence(Debitcard.SEQUENCE_NAME));
         debitcard.setCreated(LocalDateTime.now().format(formatter));
 
-        return debitcardRepository.save(debitcard);
-    }
+        return debitcardRepository.save(debitcard);    }
 
     @GetMapping
     public List<Debitcard> findall() {
@@ -74,17 +65,12 @@ public class DebitcardController {
         if (debitcard.getAccount().get(0).getIdaccount() == null) {
             debitcard.setAccount(accounts);
         } else {
-            debitcard.getAccount().add(account);
-        }
-
-        return debitcardRepository.save(debitcard);
-    }
-
+            debitcard.getAccount().add(account);        }
+        return debitcardRepository.save(debitcard);    }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         debitcardRepository.deleteById(id);
     }
-
     @PutMapping("/{id}")
     public Debitcard update(@PathVariable long id, @RequestBody Debitcard debitcard) {
         return debitcardRepository.save(debitcard);

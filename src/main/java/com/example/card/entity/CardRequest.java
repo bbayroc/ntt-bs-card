@@ -1,7 +1,6 @@
 package com.example.card.entity;
 
 import lombok.Data;
-
 @Data
 public class CardRequest {
 
