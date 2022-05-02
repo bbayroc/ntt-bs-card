@@ -9,7 +9,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 @RestController
-@RequestMapping("/Debit")
+@RequestMapping("/debit")
 public class DebitcardController {
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
@@ -40,12 +40,12 @@ public class DebitcardController {
         return debitcardRepository.findByCardtype("Debit");
     }
 
-    @GetMapping("/Idclients/{idclient}")
+    @GetMapping("/idclients/{idclient}")
     public Debitcard find2(@PathVariable String idclient) {
         return debitcardRepository.findByIdclient(idclient);
     }
 
-    @GetMapping("/Idcards/{idcard}")
+    @GetMapping("/idcards/{idcard}")
     public Debitcard find(@PathVariable String idcard) {
         return debitcardRepository.findByIdcard(idcard);
     }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Cards")
+@RequestMapping("/cards")
 public class CreditcardController {
     @Autowired
     private CardRepository cardRepository;
@@ -23,11 +23,11 @@ public class CreditcardController {
     public List<Creditcard> findall() {
         return cardRepository.findAll();
     }
-    @GetMapping("/Idclients/{idclient}")
+    @GetMapping("/idclients/{idclient}")
     public Creditcard find2(@PathVariable String idclient) {
         return cardRepository.findByIdclient(idclient);
     }
-    @GetMapping("/Idcards/{idcard}")
+    @GetMapping("/idcards/{idcard}")
     public Creditcard find(@PathVariable String idcard) {
         return cardRepository.findByIdcard(idcard);
     }
