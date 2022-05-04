@@ -1,0 +1,4 @@
+FROM mongo:latest
+COPY initdb.js /docker-entrypoint-initdb.d/
+
+#docker build -t mongo-card .

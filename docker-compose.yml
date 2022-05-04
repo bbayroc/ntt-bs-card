@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  mongocard:
+    build: 
+      context: .
+      dockerfile: Dockerfilemongo
+    environment:
+      - MONGO_INITDB_DATABASE=CardDB
+    ports:
+      - "27022:27017"
+    networks:
+      - default
+      - nttdata-net
+  cardsapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - "mongocard"
+    networks:
+      - default
+      - nttdata-net
+networks:
+  default: 
+    driver: bridge
+  nttdata-net:
+    external: true
+
