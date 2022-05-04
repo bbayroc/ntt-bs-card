@@ -18,14 +18,15 @@ public class CreditcardController {
     private Validator validator;
     @PostMapping
     public Creditcard save(@RequestBody CardRequest cardRequest) {
+        cardRequest.setCardtype("Credit");
         return cardRepository.save(validator.productvalidator(cardRequest));    }
-    @GetMapping
+    @GetMapping("/all")
     public List<Creditcard> findall() {
-        return cardRepository.findAll();
+        return cardRepository.findByCardtype("Credit");
     }
     @GetMapping("/idclients/{idclient}")
-    public Creditcard find2(@PathVariable String idclient) {
-        return cardRepository.findByIdclient(idclient);
+    public List<Creditcard> find2(@PathVariable String idclient) {
+        return cardRepository.findByIdclientAndCardtype(idclient, "Credit");
     }
     @GetMapping("/idcards/{idcard}")
     public Creditcard find(@PathVariable String idcard) {
