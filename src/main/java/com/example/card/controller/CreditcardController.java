@@ -39,9 +39,11 @@ public class CreditcardController {
 
         creditcard.setBalance(creditcard.getBalance() + balanceUpdate.getBalance());
         return cardRepository.save(creditcard);    }
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
-        cardRepository.deleteById(id);
+
+    //Borra ambos tips de tarjeta buscando por idcard
+    @DeleteMapping("/{idcard}")
+    public void delete(@PathVariable String idcard) {
+        cardRepository.deleteByIdcard(idcard);
     }
     @PutMapping("/{id}")
     public Creditcard update(@PathVariable long id, @RequestBody Creditcard creditcard) {

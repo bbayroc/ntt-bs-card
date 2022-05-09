@@ -13,4 +13,6 @@ public interface CardRepository extends MongoRepository<Creditcard, Long> {
     List<Creditcard> findByIdclientAndCardtype(String idclient, String credit);
 
     List<Creditcard> findByCardtype(String cardtype);
+
+    void deleteByIdcard(String idcard);
 }

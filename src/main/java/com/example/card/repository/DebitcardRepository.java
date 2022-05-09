@@ -8,5 +8,6 @@ import java.util.List;
 public interface DebitcardRepository extends MongoRepository<Debitcard, Long> {
     List<Debitcard> findByCardtype(String cardtype);
     Debitcard findByIdcard(String idcard);
-    Debitcard findByIdclient(String idclient);
+    List<Debitcard> findByIdclientAndCardtype(String idclient, String cardtype);
+
 }

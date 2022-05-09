@@ -22,6 +22,7 @@ public class DebitcardController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
 
+        //Agrega hora de creacion si se existe una tarjeta secundaria durante la creacion
         Account account = accounts.get(0);
         if (account.getIdaccount() != null) {
             account.setAdded(LocalDateTime.now().format(formatter));
@@ -41,8 +42,8 @@ public class DebitcardController {
     }
 
     @GetMapping("/idclients/{idclient}")
-    public Debitcard find2(@PathVariable String idclient) {
-        return debitcardRepository.findByIdclient(idclient);
+    public List<Debitcard> find2(@PathVariable String idclient) {
+        return debitcardRepository.findByIdclientAndCardtype(idclient, "Debit");
     }
 
     @GetMapping("/idcards/{idcard}")
@@ -62,11 +63,26 @@ public class DebitcardController {
         List<Account> accounts = new ArrayList<>();
         accounts.add(account);
 
-        if (debitcard.getAccount().get(0).getIdaccount() == null) {
+        if (debitcard.getAccount().get(0).getIdaccount() == null && !Objects.equals(account.getIdaccount(), debitcard.getPrincipalaccount())) {
             debitcard.setAccount(accounts);
-        } else {
-            debitcard.getAccount().add(account);        }
-        return debitcardRepository.save(debitcard);    }
+            return debitcardRepository.save(debitcard);
+        }
+        else if (debitcard.getAccount().get(0).getIdaccount() != null && !Objects.equals(account.getIdaccount(), debitcard.getPrincipalaccount())) {
+
+            List<Account> accounts2 = debitcard.getAccount();
+
+                long test = accounts2.stream()
+                            .filter(p -> Objects.equals(p.getIdaccount(), account.getIdaccount()))
+                            .count();
+
+                if (test == 0){
+                    return debitcardRepository.save(debitcard);
+                }
+                else return null;
+        }
+        else return null;
+    }
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         debitcardRepository.deleteById(id);
